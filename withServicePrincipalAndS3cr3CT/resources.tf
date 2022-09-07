@@ -61,7 +61,7 @@ resource "azurerm_role_definition" "role_def" {
 }
 
 data "azurerm_container_registry" "access_to_acr" {
-  name                = "ansumantestacr"
+  name                = "ResourcesAccesName"
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
