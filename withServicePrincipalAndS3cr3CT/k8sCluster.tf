@@ -21,6 +21,9 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   /* Linux Profile */
   linux_profile {
     admin_username = "admin"
+    ssh_key {
+      key_data = "Pending"
+    }
   }
   service_principal {
     client_id     = var.client_id
