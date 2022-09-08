@@ -22,7 +22,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   linux_profile {
     admin_username = "admin"
     ssh_key {
-      key_data = "Pending"
+      key_data = azurerm_key_vault_secret.ssh_key.value
     }
   }
   service_principal {

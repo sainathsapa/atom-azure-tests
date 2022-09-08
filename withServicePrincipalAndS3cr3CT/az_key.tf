@@ -46,6 +46,6 @@ resource "tls_private_key" "tls_keygen" {
 /* Assign the Key to Secret and store to keyVault */
 resource "azurerm_key_vault_secret" "ssh_key" {
   name         = var.key_secret_name
-  value        = tls_private_key.tls_keygen.private_key_pem
+  value        = tls_private_key.tls_keygen.public_key_openssh
   key_vault_id = azurerm_key_vault.azkey_vault.id
 }
