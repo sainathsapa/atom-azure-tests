@@ -65,7 +65,7 @@ variable "location" {
 variable "cluster_name" {
   description = "Cluster name to be used to deploy the cluster"
   default     = "atomstate-cluster-name"
-  type = string
+  type        = string
 }
 
 /* UserName for KubeCluster's VMachine */
@@ -104,7 +104,7 @@ variable "subnet_name" {
 variable "role_definition" {
   type        = list(string)
   description = "Role assignments to be used for"
-  /* [ role_name, role_name, role_scope ] */
+  /* [ role_id, role_name, role_scope ] */
   default = ["123456789012345678901234567890123", "NameforCurrentUserRole", "/subscription_id/etc"]
 }
 
