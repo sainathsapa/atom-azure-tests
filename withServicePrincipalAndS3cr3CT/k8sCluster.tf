@@ -1,11 +1,14 @@
 /* Kubernetes Cluster Creation */
 resource "azurerm_kubernetes_cluster" "k8s" {
+
+  /* Basic Clustr Information */
   name                    = var.cluster_name
   location                = azurerm_resource_group.rg.location
   resource_group_name     = azurerm_resource_group.rg.name
-  dns_prefix              = "atomstate-k8s"
+  dns_prefix              = var.dns_prefix
   private_cluster_enabled = true
 
+  /* Virtual Machine Information*/
   default_node_pool {
     name                = "default"
     node_count          = 2
@@ -15,6 +18,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vnet_subnet_id      = azurerm_subnet.subnet.id
   }
 
+  /* Linux Profile */
+  linux_profile {
+    admin_username = "admin"
+  }
   service_principal {
     client_id     = var.client_id
     client_secret = var.client_secret
@@ -31,6 +38,9 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   tags = {
     Organization = "AtomStateTechnologiesPvtLtd"
     by           = "Sainath Sapa"
+  }
+  aci_connector_linux {
+    subnet_name = azurerm_subnet.subnet.name
   }
 
   /* Role Assignemt */

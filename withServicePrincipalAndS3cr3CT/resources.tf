@@ -1,7 +1,12 @@
 /* Providing Login Credentials */
 provider "azurerm" {
 
-  features {}
+  features {
+    /* Key Module Format */
+    key_vault {
+      purge_soft_delete_on_destroy = true
+    }
+  }
 
   /* Passing Credentials to Terraform */
   subscription_id = var.subscription_id
@@ -11,13 +16,13 @@ provider "azurerm" {
 }
 
 
+
 /* Resource Group Name */
 
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
 }
-
 
 /* Virtual Network */
 resource "azurerm_virtual_network" "vnet" {
@@ -35,6 +40,7 @@ resource "azurerm_subnet" "subnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefix       = "10.0.1.0/24"
 }
+
 
 
 /* User Identity */
