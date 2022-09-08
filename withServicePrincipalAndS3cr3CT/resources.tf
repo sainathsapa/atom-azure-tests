@@ -24,6 +24,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+
 /* Virtual Network */
 resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet_name

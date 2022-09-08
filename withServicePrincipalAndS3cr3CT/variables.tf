@@ -97,6 +97,14 @@ variable "storage_permissions " {
 
 }
 
+/* Key Secret Name */
+variable "key_secret_name" {
+  description = "Name for Key Secret"
+  default     = "MyKeySecretName"
+  type        = string
+  sensitive   = true
+
+}
 /* Location for RG */
 variable "location" {
 

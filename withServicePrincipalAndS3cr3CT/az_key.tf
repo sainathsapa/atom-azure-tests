@@ -1,7 +1,7 @@
 
 
 /* Azure Key Vault */
-resource "azurerm_key_vault" "azkey" {
+resource "azurerm_key_vault" "azkey_vault" {
   name                        = var.key_vault_name
   location                    = azurerm_resource_group.rg.location
   resource_group_name         = azurerm_resource_group.rg.name
@@ -33,4 +33,19 @@ resource "azurerm_key_vault" "azkey" {
     virtual_network_subnet_ids = azurerm_subnet.subnet.service_endpoint_policy_ids
   }
 
+}
+
+
+/* Key Gen by using TLS Key Gen */
+resource "tls_private_key" "tls_keygen" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+
+/* Assign the Key to Secret and store to keyVault */
+resource "azurerm_key_vault_secret" "ssh_key" {
+  name         = var.key_secret_name
+  value        = tls_private_key.tls_keygen.private_key_pem
+  key_vault_id = azurerm_key_vault.azkey_vault.id
 }
