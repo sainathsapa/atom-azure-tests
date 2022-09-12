@@ -187,10 +187,10 @@ variable "cluster_node_max_count" {
 /* NSG */
 
 variable "nsg_name" {
-  type = string
-  default = "MyNSG"
+  type        = string
+  default     = "MyNSG"
   description = "Network Security Group Name for KubeClustr"
-  
+
 }
 
 /* VNet Name */
@@ -238,4 +238,21 @@ variable "role_assignment_name" {
   default     = "MyRoleAssignmentName"
   description = "Role Assignmet Name"
 
+}
+
+
+/* for DB */
+
+variable "dbUserName" {
+  type        = string
+  default     = "MyUserName"
+  description = "UserName for Azure Managed Instance"
+
+}
+
+variable "dbPassword" {
+  type        = string
+  default     = "MyPassword"
+  description = "Password for Azure Managed Instance"
+  sensitive   = true
 }

@@ -12,8 +12,8 @@ resource "azurerm_network_security_group" "nsg" {
     /* ON or OFF */
     access                     = "Allow"
     protocol                   = "TCP"
-    source_port_range          = "8080"
-    destination_port_range     = "80"
+    source_port_range          = "*"
+    destination_port_range     = "*"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -39,6 +39,7 @@ resource "azurerm_subnet" "subnet_one" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefix       = "10.0.1.0/24"
 }
+
 
 /* Assign NSG Rule for the Subnet*/
 resource "azurerm_subnet_network_security_group_association" "assign_subnet_one" {
