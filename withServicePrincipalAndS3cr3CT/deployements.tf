@@ -23,14 +23,14 @@ resource "kubernetes_deployment" "fluentd" {
 
     selector {
       match_labels = {
-        test = "Fluentd"
+        app = "Fluentd"
       }
     }
 
     template {
       metadata {
         labels = {
-          test = "Fluentd"
+          app = "Fluentd"
         }
       }
 
@@ -56,6 +56,23 @@ resource "kubernetes_deployment" "fluentd" {
           period_seconds        = 3
         }
       }
+    }
+  }
+}
+
+resource "kubernetes_service" "fluentd" {
+  metadata {
+    name = "kubenet_service_fluentd"
+  }
+  spec {
+    selector = {
+      app = kubernetes_deployment.fluentd.spec.0.template.0.metadata.0.labels.app
+    }
+
+    port {
+
+      port        = 80
+      target_port = 80
     }
   }
 }
