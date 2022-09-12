@@ -91,7 +91,7 @@ resource "azurerm_private_link_service" "azure_private_link" {
 }
 
 
-
+/* Subnet for DB */
 resource "azurerm_subnet" "db_subnet" {
   name                 = "db_subnet"
   resource_group_name  = azurerm_resource_group.rg.name
