@@ -89,3 +89,21 @@ resource "azurerm_private_link_service" "azure_private_link" {
     primary                    = true
   }
 }
+
+
+
+resource "azurerm_subnet" "db_subnet" {
+  name                 = "db_subnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.0.0/24"]
+
+  delegation {
+    name = "managedinstancedelegation"
+
+    service_delegation {
+      name    = "Microsoft.Sql/managedInstances"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action", "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action"]
+    }
+  }
+}
