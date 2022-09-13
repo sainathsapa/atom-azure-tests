@@ -20,3 +20,15 @@ module "netowrk" {
 
 
 }
+
+
+module "db" {
+  source     = "./modules/db"
+  dbPassword = "atomS3Cr3t"
+  dbUserName = "stateAtom"
+  vcores     = 2
+  size_in_db = 30
+
+}
+
+

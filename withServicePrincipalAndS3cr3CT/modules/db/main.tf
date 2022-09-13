@@ -1,6 +1,6 @@
 /* Azure Managed DB */
 
-resource "azurerm_sql_managed_instance" "example" {
+resource "azurerm_sql_managed_instance" "db" {
   name                         = var.dbName
   resource_group_name          = var.resource_group_name
   location                     = var.location
@@ -9,8 +9,8 @@ resource "azurerm_sql_managed_instance" "example" {
   license_type                 = "BasePrice"
   subnet_id                    = azurerm_subnet.db_subnet.id
   sku_name                     = "GP_Gen5"
-  vcores                       = 4
-  storage_size_in_gb           = 32
+  vcores                       = var.vcores
+  storage_size_in_gb           = var.size_in_db
 
 }
 
