@@ -61,4 +61,23 @@ module "az_key" {
 
 }
 
+module "k8s" {
+  source = "./modules/k8s"
 
+  cluster_name           = "MyK8sCluster"
+  rg_location            = module.rg.rg_location
+  rg_name                = module.rg.rg_name
+  dns_prefix             = "atomstate.dns.io"
+  vm_name                = "MyK8sClusterVM"
+  cluster_node_count     = 2
+  cluster_node_max_count = 10
+  cluster_node_min_count = 5
+  vm_size_proccer_ram    = "Standard_D2_v2"
+  vm_os_disk_size_gb     = 10
+  vnet_subnet_id         = module.netowrk.subnet_id.id
+  admin_user_name        = "stateatom"
+  ssh_key                = module.az_key.public_ssh_key
+  client_id              = module.user_details.client_id
+  client_secret          = module.user_details.client_id
+  subnet_name            = module.netowrk.subnet.name
+}
