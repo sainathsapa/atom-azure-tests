@@ -2,8 +2,8 @@
 /* NSG */
 resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
 
   security_rule {
     name      = "TestSecurityRuleName"
@@ -21,48 +21,49 @@ resource "azurerm_network_security_group" "nsg" {
 /* Virtual Network */
 resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet_name
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.0.0.0/16"]
-  dns_servers         = ["10.0.0.4"]
+  location            = var.rg_location
+  resource_group_name = var.rg_name
+  address_space       = var.vnet_address_space
+  dns_servers         = var.vnet_dns_servers
 }
 
 resource "azurerm_private_dns_zone" "dns" {
-  name                = "atomstate.privatelink.eastus.azmk8s.io"
-  resource_group_name = azurerm_resource_group.rg.name
+  name                = var.dns_zone_name
+  resource_group_name = var.rg_name
 }
 
 /* Subnet */
-resource "azurerm_subnet" "subnet_one" {
+resource "azurerm_subnet" "subnet" {
   name                 = var.subnet_name
-  resource_group_name  = azurerm_resource_group.rg.name
+  location             = var.rg_location
+  resource_group_name  = var.rg_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefix       = "10.0.1.0/24"
+  address_prefix       = var.subnet_address_prifix
 }
 
 
 /* Assign NSG Rule for the Subnet*/
 resource "azurerm_subnet_network_security_group_association" "assign_subnet_one" {
-  subnet_id                 = azurerm_subnet.subnet_one.id
+  subnet_id                 = azurerm_subnet.subnet.id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
 /* PUBLIC IP */
 resource "azurerm_public_ip" "pip" {
-  name                = "az-pip"
+  name                = var.pip_name
   sku                 = "Standard"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Dynamic"
+  location            = var.rg_location
+  resource_group_name = var.rg_name
+  allocation_method   = var.pip_alloc_method
 }
 
 /* Load Balancer for Request Handling */
 
 resource "azurerm_lb" "az_lb" {
-  name                = "az_lb"
+  name                = var.az_lb_name
   sku                 = "Standard"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
 
   frontend_ip_configuration {
     name                 = azurerm_public_ip.pip.name
@@ -73,9 +74,9 @@ resource "azurerm_lb" "az_lb" {
 
 /* Connection for Private K8s */
 resource "azurerm_private_link_service" "azure_private_link" {
-  name                = "private_link"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  name                = var.pvt_lnk_service_name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
 
 
 
@@ -83,9 +84,9 @@ resource "azurerm_private_link_service" "azure_private_link" {
 
   nat_ip_configuration {
     name                       = "primary"
-    private_ip_address         = azurerm_kubernetes_cluster.k8s.fqdn
+    private_ip_address         = var.pvt_lnk_service_k8s_ip
     private_ip_address_version = "IPv4"
-    subnet_id                  = azurerm_subnet.subnet_one.id
+    subnet_id                  = azurerm_subnet.subnet.id
     primary                    = true
   }
 }
@@ -93,17 +94,18 @@ resource "azurerm_private_link_service" "azure_private_link" {
 
 /* Subnet for DB */
 resource "azurerm_subnet" "db_subnet" {
-  name                 = "db_subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
+  name                 = var.db_subnet_name
+  resource_group_name  = var.rg_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.0.0/24"]
+  address_prefixes     = var.db_subnet_address_prefix
 
   delegation {
     name = "managedinstancedelegation"
 
     service_delegation {
-      name    = "Microsoft.Sql/managedInstances"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action", "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action"]
+      name = "Microsoft.Sql/managedInstances"
+      # actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action", "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action"]
+      actions = var.db_action
     }
   }
 }
