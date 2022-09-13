@@ -88,3 +88,7 @@ variable "rg_location" {
 variable "rg_name" {
   type = string
 }
+
+variable "admin_group_object_ids" {
+  type = list(string)
+}

@@ -80,4 +80,5 @@ module "k8s" {
   client_id              = module.user_details.client_id
   client_secret          = module.user_details.object_id
   subnet_name            = module.netowrk.subnet.name
+  admin_group_object_ids = ["value", "value"]
 }

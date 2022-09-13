@@ -54,6 +54,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
       client_app_id
     } */
   }
+  azure_active_directory_role_based_access_control {
+    managed                = true
+    admin_group_object_ids = var.admin_group_object_ids
+
+  }
 
   tags = {
     Organization = "AtomStateTechnologiesPvtLtd"
@@ -64,8 +69,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   /* Role Assignemt */
-#   depends_on = [
-#     azurerm_role_assignment.role_assign,
-#   ]
+  #   depends_on = [
+  #     azurerm_role_assignment.role_assign,
+  #   ]
 
 }
