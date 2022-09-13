@@ -39,8 +39,9 @@ module "db" {
 
 }
 
-# USer Detaisl
-data "azurerm_client_config" "current" {
+module "user_details" {
+  source = "./modules/client_dt"
+
 }
 
 module "az_key" {
@@ -53,6 +54,9 @@ module "az_key" {
   secret_permissions         = ["get"]
   storage_permissions        = ["get"]
   vnet_subnet_id             = module.netowrk.subnet_name.id
+  tenant_id                  = module.user_details.tenant_id
+  principal_id               = module.user_details.principal_id
+
 
 
 }
