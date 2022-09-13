@@ -78,6 +78,6 @@ module "k8s" {
   admin_user_name        = "stateatom"
   ssh_key                = module.az_key.public_ssh_key
   client_id              = module.user_details.client_id
-  client_secret          = module.user_details.client_id
+  client_secret          = module.user_details.object_id
   subnet_name            = module.netowrk.subnet.name
 }
