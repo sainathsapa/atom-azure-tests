@@ -3,8 +3,8 @@
 /* Azure Key Vault */
 resource "azurerm_key_vault" "azkey_vault" {
   name                        = var.key_vault_name
-  location                    = azurerm_resource_group.rg.location
-  resource_group_name         = azurerm_resource_group.rg.name
+  location                    = var.rg_location
+  resource_group_name         = var.rg_name
   enabled_for_disk_encryption = true
   enabled_for_deployment      = true
   enable_rbac_authorization   = true
@@ -30,7 +30,7 @@ resource "azurerm_key_vault" "azkey_vault" {
   network_acls {
     bypass                     = "None" /* for better security */
     default_action             = "Allow"
-    virtual_network_subnet_ids = azurerm_subnet.subnet.service_endpoint_policy_ids
+    virtual_network_subnet_ids = var.vnet_subnet_id
   }
 
 }
@@ -45,14 +45,14 @@ resource "tls_private_key" "tls_keygen" {
 
 /* Assign the Key to Secret and store to keyVault */
 resource "azurerm_key_vault_secret" "public_ssh_key" {
-  name         = var.key_secret_name
+  name         = var.public_key_secret_name
   value        = tls_private_key.tls_keygen.public_key_openssh
   key_vault_id = azurerm_key_vault.azkey_vault.id
 }
 
 resource "azurerm_key_vault_secret" "private_ssh_key" {
   /* Storing Private Key */
-  name         = var.key_secret_name
+  name         = var.private_key_secret_name
   value        = tls_private_key.tls_keygen.private_key_pem
   key_vault_id = azurerm_key_vault.azkey_vault.id
 }

@@ -51,60 +51,6 @@ variable "resource_group_name" {
 
 }
 
-/* Key Vault Name */
-
-variable "key_vault_name" {
-  type        = string
-  description = "Name of the key Vault to be used"
-  default     = "MyKeyVaultName"
-}
-
-variable "soft_delete_retention_days" {
-  type        = number
-  description = "KeyVaule Retention Days Count"
-  default     = 2
-
-}
-
-
-variable "certificate_permissions " {
-  type        = list(string)
-  description = "define certificate_permissions"
-  default     = ["create", "delete", "deleteissuers", "get", "update"]
-
-}
-
-variable "key_permissions" {
-  type        = list(string)
-  description = "define key_permissions"
-  default     = ["backup", "create", "decrypt", "delete", "encrypt", "get", "import", "list", "purge", "recover", "restore", "sign", "unwrapKey", "update", "verify", "wrapKey", ]
-}
-
-
-variable "secret_permissions" {
-  type        = list(string)
-  description = "Secret permissions"
-  default     = ["get"]
-
-}
-
-variable "storage_permissions " {
-
-  type        = list(string)
-  description = "Storage permissions"
-  default     = ["get"]
-
-
-}
-
-/* Key Secret Name */
-variable "key_secret_name" {
-  description = "Name for Key Secret"
-  default     = "MyKeySecretName"
-  type        = string
-  sensitive   = true
-
-}
 /* Location for RG */
 variable "location" {
 
@@ -184,34 +130,6 @@ variable "cluster_node_max_count" {
   default     = 10
 }
 
-/* NSG */
-
-variable "nsg_name" {
-  type        = string
-  default     = "MyNSG"
-  description = "Network Security Group Name for KubeClustr"
-
-}
-
-/* VNet Name */
-
-variable "vnet_name" {
-
-  description = "Name for VNet to be used for KubeCluster"
-  type        = string
-  default     = "MyKubeVnetName"
-
-
-}
-
-/* SubNet Name */
-
-variable "subnet_name" {
-  type        = string
-  description = "Name for Subnet to be used for KubeCluster"
-  default     = "MyKubeSubnetName"
-}
-
 
 /* Variables for Role Definition */
 
@@ -238,21 +156,4 @@ variable "role_assignment_name" {
   default     = "MyRoleAssignmentName"
   description = "Role Assignmet Name"
 
-}
-
-
-/* for DB */
-
-variable "dbUserName" {
-  type        = string
-  default     = "MyUserName"
-  description = "UserName for Azure Managed Instance"
-
-}
-
-variable "dbPassword" {
-  type        = string
-  default     = "MyPassword"
-  description = "Password for Azure Managed Instance"
-  sensitive   = true
 }
