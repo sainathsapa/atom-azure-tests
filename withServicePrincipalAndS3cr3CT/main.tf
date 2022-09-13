@@ -1,8 +1,16 @@
+module "rg" {
+  source = "./modules/resource_grp"
+  rg_location = "East US"
+  rg_name = "MyRG"
+
+  
+  
+}
 module "netowrk" {
   source                   = "./modules/network"
   nsg_name                 = "MyNSG"
-  rg_location              = "East US"
-  rg_name                  = "AtomRG"
+  rg_location              = module.rg.rg_location
+  rg_name                  = module.rg.rg_location
   vnet_name                = "MyVnet"
   vnet_address_space       = ["value"]
   vnet_dns_servers         = ["value"]
