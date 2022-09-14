@@ -92,3 +92,14 @@ variable "rg_name" {
 variable "admin_group_object_ids" {
   type = list(string)
 }
+
+
+variable "vnet_subnet_id" {
+
+  type = string
+
+}
+
+variable "ssh_key" {
+  type = string
+}

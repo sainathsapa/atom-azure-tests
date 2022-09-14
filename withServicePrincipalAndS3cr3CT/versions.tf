@@ -11,8 +11,8 @@ terraform {
     }
 
     /* K8S Service Provider*/
-    kubernets = {
-      source  = "hashicorp/kubernets"
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
       version = ">= 2.6"
     }
 
