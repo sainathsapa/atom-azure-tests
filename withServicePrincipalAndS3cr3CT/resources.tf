@@ -9,10 +9,10 @@ provider "azurerm" {
   }
 
   /* Passing Credentials to Terraform */
-  subscription_id = module.user_details.subscription_id
-  client_id       = module.user_details.client_id
-  client_secret   = module.user_details.object_id
-  tenant_id       = module.user_details.tenant_id
+  subscription_id = module.user_details.0.subscription_id
+  client_id       = module.user_details.0.client_id
+  client_secret   = module.user_details.0.object_id
+  tenant_id       = module.user_details.0.tenant_id
 }
 
 

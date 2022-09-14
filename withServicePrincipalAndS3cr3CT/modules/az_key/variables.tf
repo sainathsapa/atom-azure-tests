@@ -14,7 +14,7 @@ variable "soft_delete_retention_days" {
 }
 
 
-variable "certificate_permissions " {
+variable "certificate_permissions" {
   type        = list(string)
   description = "define certificate_permissions"
   default     = ["create", "delete", "deleteissuers", "get", "update"]
@@ -35,7 +35,7 @@ variable "secret_permissions" {
 
 }
 
-variable "storage_permissions " {
+variable "storage_permissions" {
 
   type        = list(string)
   description = "Storage permissions"
@@ -59,4 +59,25 @@ variable "public_key_secret_name" {
   type        = string
   sensitive   = true
 
+}
+
+
+variable "rg_location" {
+  type = string
+}
+
+variable "rg_name" {
+  type = string
+}
+
+variable "vnet_subnet_id" {
+  type = string
+}
+
+variable "tenant_id" {
+  type = string
+}
+
+variable "principal_id" {
+  type = string
 }

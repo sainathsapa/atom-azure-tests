@@ -1,6 +1,10 @@
 
 /* for DB */
 
+variable "dbName" {
+  type = string
+}
+
 variable "dbUserName" {
   type        = string
   default     = "MyUserName"
@@ -23,4 +27,18 @@ variable "size_in_db" {
 
 variable "vcores" {
   type = number
+}
+
+
+variable "rg_location" {
+  type = string
+}
+
+variable "rg_name" {
+  type = string
+}
+
+
+variable "db_subnet_id" {
+  type = string
 }

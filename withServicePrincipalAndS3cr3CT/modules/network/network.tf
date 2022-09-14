@@ -11,7 +11,7 @@ resource "azurerm_network_security_group" "nsg" {
     direction = "Inbound"
     /* ON or OFF */
     access                     = "Allow"
-    protocol                   = "TCP"
+    protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
@@ -34,11 +34,10 @@ resource "azurerm_private_dns_zone" "dns" {
 
 /* Subnet */
 resource "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  location             = var.rg_location
+  name = var.subnet_nam
   resource_group_name  = var.rg_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefix       = var.subnet_address_prifix
+  address_prefixes     = var.subnet_address_prifix
 }
 
 
