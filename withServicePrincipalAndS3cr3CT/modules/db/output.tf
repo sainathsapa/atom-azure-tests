@@ -1,3 +1,3 @@
 output "db" {
-  value = azurerm_sql_managed_instance.db
+  value = azurerm_mssql_managed_instance.db
 }
