@@ -14,6 +14,3 @@ provider "azurerm" {
   client_secret   = module.user_details.user.object_id
   tenant_id       = module.user_details.user.tenant_id
 }
-
-
-
