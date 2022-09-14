@@ -23,9 +23,10 @@ module "k8s" {
   vm_os_disk_size_gb     = 10
   vnet_subnet_id         = module.netowrk.subnet.id
   admin_user_name        = "stateatom"
-  ssh_key                = module.az_key.public_ssh_key
-  client_id              = module.user_details.0.client_id
-  client_secret          = module.user_details.0.object_id
+  # ssh_key                = module.az_key.public_ssh_key
+  ssh_key                = "MyNAme"
+  client_id              = module.user_details.user.client_id
+  client_secret          = module.user_details.user.object_id
   subnet_name            = module.netowrk.subnet.name
   admin_group_object_ids = ["value", "value"]
 }
@@ -49,7 +50,7 @@ module "netowrk" {
   pip_alloc_method         = "Dynamic"
   az_lb_name               = "MyAZLB"
   pvt_lnk_service_name     = "MyPvtService"
-  pvt_lnk_service_k8s_ip   = azurerm_kubernetes_cluster.k8s
+  pvt_lnk_service_k8s_ip   = module.k8s.cluster_ip
 
 
 }
@@ -74,19 +75,19 @@ module "user_details" {
 
 }
 
-module "az_key" {
-  source                     = "./modules/az_key"
-  key_vault_name             = "MyKeyValut"
-  rg_location                = module.rg.rg_location
-  rg_name                    = module.rg.rg_name
-  soft_delete_retention_days = 2
-  certificate_permissions    = ["create"]
-  secret_permissions         = ["get"]
-  storage_permissions        = ["get"]
-  vnet_subnet_id             = module.netowrk.subnet.id
-  tenant_id                  = module.user_details.0.tenant_id
-  principal_id               = module.user_details.0.principal_id
+# module "az_key" {
+#   source                     = "./modules/az_key"
+#   key_vault_name             = "MyKeyValut"
+#   rg_location                = module.rg.rg_location
+#   rg_name                    = module.rg.rg_name
+#   soft_delete_retention_days = 2
+#   certificate_permissions    = ["create"]
+#   secret_permissions         = ["get"]
+#   storage_permissions        = ["get"]
+#   vnet_subnet_id             = module.netowrk.subnet.id
+#   tenant_id                  = module.user_details.0.tenant_id
+#   principal_id               = module.user_details.0.principal_id
 
 
 
-}
+# }

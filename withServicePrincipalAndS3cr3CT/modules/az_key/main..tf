@@ -30,7 +30,7 @@ resource "azurerm_key_vault" "azkey_vault" {
   network_acls {
     bypass                     = "None" /* for better security */
     default_action             = "Allow"
-    virtual_network_subnet_ids = var.vnet_subnet_id
+    virtual_network_subnet_ids = var.vnet_subnet_id.id
   }
 
 }

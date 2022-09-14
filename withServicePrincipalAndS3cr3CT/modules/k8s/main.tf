@@ -24,21 +24,19 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size             = var.vm_size_proccer_ram
     os_disk_size_gb     = var.vm_os_disk_size_gb
     enable_auto_scaling = true
-    vnet_subnet_id      = var.subnet_id
+    vnet_subnet_id      = var.vnet_subnet_id
     type                = "VirtualMachineScaleSet"
   }
 
   /* Linux Profile */
 
   linux_profile {
-    admin_username = var.admin_username
+    admin_username = var.admin_user_name
     ssh_key {
       key_data = var.ssh_key
     }
   }
-  nat_gateway_profile {
-    effective_outbound_ips = true
-  }
+
   service_principal {
     client_id     = var.client_id
     client_secret = var.client_secret
@@ -48,12 +46,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     network_plugin    = "kubenet"
     load_balancer_sku = "standard"
   }
-  role_based_access_control {
-    enabled = true
-    /* azure_active_directory {
-      client_app_id
-    } */
-  }
+  role_based_access_control_enabled = true
   azure_active_directory_role_based_access_control {
     managed                = true
     admin_group_object_ids = var.admin_group_object_ids

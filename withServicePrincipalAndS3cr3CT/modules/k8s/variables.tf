@@ -103,3 +103,8 @@ variable "vnet_subnet_id" {
 variable "ssh_key" {
   type = string
 }
+
+
+# variable "subnet_id" {
+#   type = string
+# }
